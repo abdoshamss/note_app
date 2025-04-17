@@ -44,8 +44,8 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           BlocBuilder<NotesCubit, NotesState>(
             builder: (context, state) {
-              final bloc = BlocProvider.of<NotesCubit>(context);
-              List<HomeModel>? notes = bloc.notes ?? [];
+              List<HomeModel> notes =
+                  BlocProvider.of<NotesCubit>(context).notes ?? [];
               return searchController.text.isEmpty
                   ? Padding(
                       padding: const EdgeInsets.symmetric(
@@ -65,22 +65,17 @@ class _SearchScreenState extends State<SearchScreen> {
                         ],
                       ),
                     )
-                  : (notes.isNotEmpty
-                      ? Expanded(
-                          child: ListView.builder(
-                              itemCount: notes.length,
-                              itemBuilder: (context, index) {
-                                return CustomHomeContainer(
-                                  note: notes[index],
-                                  index: index + 11,
-                                );
-                              }))
-                      : Container(
-                          color: Colors.red,
-                          width: 300,
-                          height: 300,
-                          alignment: Alignment.center,
-                          child: Text("Aeshaa")));
+                  : Expanded(
+                      child: ListView.builder(
+                        itemCount: notes.length,
+                        itemBuilder: (context, index) {
+                          return CustomHomeContainer(
+                            note: notes[index],
+                            index: index + 11,
+                          );
+                        },
+                      ),
+                    );
             },
           ),
         ],
